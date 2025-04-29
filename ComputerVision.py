@@ -40,7 +40,10 @@ except ImportError:
 # args = parser.parse_args()
 
 
-class ComputerVision():
+class ComputerVision:
+    """
+    Provides image processing utilities for StrongBox, including edge detection, image loading, and QR code scanning.
+    """
     def printImageForTestingPurpose(self, name, img):
         """
         Prams:Img to be printed

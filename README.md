@@ -25,6 +25,55 @@ Figure 1 - [OnShape 3D Model](https://cad.onshape.com/documents/cacba11fc1121841
 
 <br> <br>
 # MORE INFO:
+
+---
+
+## Running the GUI
+
+To launch the StrongBox GUI, always use the launcher script:
+
+```bash
+python launch_gui.py
+```
+
+This script ensures the application will not attempt to start in a headless environment (such as a server or CI system).
+
+## Headless Environment & CI Testing
+
+The GUI will not launch if no display is available, or if the environment variable `FORCE_HEADLESS` is set to `1`. This is used for automated testing and CI environments.
+
+**Example:**
+```bash
+FORCE_HEADLESS=1 python launch_gui.py
+```
+This will print an error and exit with code 1, confirming headless detection works.
+
+## Running Tests
+
+All tests are run with pytest:
+```bash
+pytest --maxfail=5 --disable-warnings -q
+```
+
+The test suite includes a robust headless environment test using the `FORCE_HEADLESS` variable.
+
+## Dependencies
+
+Install all required dependencies with pip:
+```bash
+pip install nicegui opencv-python python-dotenv pytest
+```
+
+## Developer Quickstart
+
+1. Clone the repository and install dependencies (see above).
+2. To run the GUI: `python launch_gui.py`
+3. To run tests: `pytest`
+4. To simulate headless mode: `FORCE_HEADLESS=1 python launch_gui.py`
+5. For any environment variable configuration, use a `.env` file (see `python-dotenv` docs).
+
+---
+
 ## Rockets:
 1) Earth to Moon Trans-Lunar Injection (TLI) launch provider via $5M Falcon 9 or $200K StarShip via [SpaceX](https://spacex.com) <br> <br>
 

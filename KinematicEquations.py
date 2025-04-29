@@ -5,7 +5,7 @@ __contact__    = "info@strongbox.space"
 __copyright__  = "Copyright 2024"
 __license__    = "MIT License"
 __status__     = "Development"
-__deprecated__ = "False"
+
 __version__    = "0.0.1"
 __doc__        = "Calculate unknown value(s) of motion using 5 kinematic equations"
 """
@@ -72,7 +72,7 @@ class KinematicEquations:
             self.dd = deltaDistance
             self.a = acceleration
 
-            # TODO: What are the 5 combinations of arguments?
+            # TODO: What are the 5 combinations of arguments? (not critical for production)
             # Calculate Final Velocity in FOUR different ways
             if (unknowns[GC.VF]) and not (unknowns[GC.VI] or unknowns[GC.T] or unknowns[GC.DD] or unknowns[GC.A]):
                 if GC.DEBUG_STATEMENTS_ON or LOCAL_DEBUG_STATEMENTS_ON:

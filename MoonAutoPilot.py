@@ -44,6 +44,9 @@ import Database as db           		# SQLite database to store crate locations
 
 
 class MoonAutoPilot:
+    """
+    Handles autopilot logic for lunar operations, including altitude calculations and control algorithms.
+    """
 
     # Class global constants
     GRAY_SCALE_MODE = 0

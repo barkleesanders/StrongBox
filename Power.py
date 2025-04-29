@@ -5,7 +5,7 @@ __contact__    = "info@strongbox.space"
 __copyright__  = "Copyright 2024"
 __license__    = "MIT License"
 __status__     = "Development"
-__deprecated__ = "False"
+
 __version__    = "0.0.1"
 __doc__        = "Measure real and calculate theoretical electrical power usage"
 """
@@ -36,6 +36,9 @@ from Database import Database               # Store non-Personally Identifiable 
 
 
 class Power:
+    """
+    Manages power-related functionalities and calculations for the StrongBox application.
+    """
 
 
     def __init__(self, partId: str, isPowerSource: bool, minWattage: float, maxWattage: float, currentVoltage: float, currentAmpDraw: float):
@@ -125,7 +128,7 @@ class Power:
 
         """
         parts = []
-        # TODO Get exact specs for AGX Orin
+        # TODO: Get exact specs for AGX Orin (not critical for production)
         cpu1 = Power("301-00001-A:1", False, 0.10, 60.0, 11.9, 4.51)
         cpu2 = Power("301-00001-A:2", False, 0.10, 60.0, 11.8, 4.53)
         parts.append(cpu1)

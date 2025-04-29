@@ -32,6 +32,9 @@ TIME_EXIT_CASE   = -3
 
 
 class Debug:
+    """
+    Debugging utilities for StrongBox, providing enhanced logging and error tracking.
+    """
 
     def __init__(self, initState, pythonClass):
         """ Constructor to initialize a Debug.py object
@@ -55,7 +58,7 @@ class Debug:
 
 
     def GetMode(self):
-	    return self.DEBUG_STATEMENTS_ON
+        return self.DEBUG_STATEMENTS_ON
 
 
     def TurnOnDebugMode(self):
