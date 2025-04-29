@@ -25,6 +25,9 @@ __version__    = "0.0.1"
 import GlobalConstants as GC                            # Useful global constants used across multiple files
 
 class Crater:
+    """
+    Handles crater-related calculations and data for StrongBox.
+    """
 
     def __init__(self, name: str, diameter: float, location: tuple):
         """ Constructor for Crater objects that define phyically traits about a large (great than 100 meters) Moon crate

@@ -9,9 +9,14 @@ __deprecated__ = "False"
 __version__    = "0.0.1"
 """
 TODO = -1
-# Useful CONSTANTS for the Strong Box moon mission
+# Centralized configuration values for StrongBox
+# Avoid magic numbers and hardcoded values
 
+# Configuration values
 DEBUG_STATEMENTS_ON = False
+GRID_TO_GPS_CONSTANT = 9999_999
+GUI_PAGE_REFRESH_RATE = 30
+CLOCK_UPDATE_TIME = 60
 
 # Physical elements inside a Strong Box
 NUMBER_OF_ROCKET_ENGINES = 1

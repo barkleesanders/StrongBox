@@ -25,6 +25,9 @@ SALT_SIZE = 16  # bytes, for PBKDF2HMAC salt
 KDF_ITERATIONS = 390000  # Number of PBKDF2 iterations (recommended: >= 100,000)
 
 
+# Main logic for StrongBox application
+# Refactored for modularity and maintainability
+
 def derive_key(password: str, salt: bytes) -> bytes:
     """
     Derive a Fernet-compatible key from a password and salt using PBKDF2HMAC.

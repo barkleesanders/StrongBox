@@ -36,6 +36,9 @@ from Database import Database               # Store non-Personally Identifiable 
 
 
 class Power:
+    """
+    Manages power-related functionalities and calculations for the StrongBox application.
+    """
 
 
     def __init__(self, partId: str, isPowerSource: bool, minWattage: float, maxWattage: float, currentVoltage: float, currentAmpDraw: float):

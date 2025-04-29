@@ -175,24 +175,20 @@ if __name__ in {"__main__", "__mp_main__"}:
         app.add_static_files('/static/images', GC.MAC_CODE_DIRECTORY +'/static/images')
         app.add_static_files('/static/videos', GC.MAC_CODE_DIRECTORY + '/static/videos')
     elif sys.platform.startswith('linux'):
-        try: #PRIMARY DEBIAN LINODE SERVER
+        try: # PRIMARY DEBIAN LINODE SERVER
             print("Trying to deploy code to the 'Sense-Energy-Gauge-Optimizer-Track Debian based Linode server")
             app.add_static_files('/static/images', '/root' + GC.LINUX_CODE_DIRECTORY + '/static/images')
             app.add_static_files('/static/videos', '/root' + GC.LINUX_CODE_DIRECTORY + '/static/videos')
         except RuntimeError: # BACKUP MFC JUPITER SERVER RUNNING UBUNTU
-            print("Linode Debian server failed deploying to MFC Jupiter server as hot backup")
-
             app.add_static_files('/static/images', '/home/jupiter/Apps' + GC.LINUX_CODE_DIRECTORY + '/static/images')
             app.add_static_files('/static/videos', '/home/jupiter/Apps' + GC.LINUX_CODE_DIRECTORY + '/static/videos')
-
     elif sys.platform.startswith('win'):
-        print("WARNING: Running Main.py server code on Windows OS is NOT fully supported")
+        print("WARNING: Running MainApp server code on Windows OS is NOT fully supported")
         app.add_static_files('/static/images', GC.WINDOWS_CODE_DIRECTORY + '/static/images')
         app.add_static_files('/static/videos', GC.WINDOWS_CODE_DIRECTORY + '/static/videos')
     else:
         print("ERROR: Running on an unknown operating system")
         quit()
-
     db = Database()
 
     config = dotenv_values()
@@ -200,7 +196,8 @@ if __name__ in {"__main__", "__mp_main__"}:
     password = config['SENSE_PASSWORD']
     sense.authenticate(username, password)
 
-    if GC.DEBUG_STATEMENTS_ON: ui.timer(60, lambda: sense_updating(db, 'DEV'))           # Call every 60 seconds to speed up testing
+    if GC.DEBUG_STATEMENTS_ON:
+        ui.timer(60, lambda: sense_updating(db, 'DEV'))           # Call every 60 seconds to speed up testing
     ui.timer(GC.SENSE_UPDATE_TIME, lambda: sense_updating(db, 'PROD'))                   # Limit to once every 20 mins to not hit API limits
 
     logo = ui.image('static/images/DollarGeneralEnergyLogo.png').classes('w-96 m-auto')
@@ -213,7 +210,7 @@ if __name__ in {"__main__", "__mp_main__"}:
 
     # Invisible character https://invisibletext.com/#google_vignette
     with ui.row().classes("self-center"):
-        searchButton = ui.button(on_click=lambda e: search_button_click(db, selectedView), \
+        searchButton = ui.button(on_click=lambda e: search_button_click(db, selectedView),
                                  color=GC.DOLLAR_STORE_LOGO_GREEN).classes("relative  h-24 w-64")
         with searchButton:
             searchButton.visible = True
@@ -221,7 +218,7 @@ if __name__ in {"__main__", "__mp_main__"}:
             ui.icon('search')
 
     with ui.row().classes("self-center"):
-        radioButtons = ui.radio(GC.RADIO_BUTTON_VALUES, value=GC.RADIO_BUTTON_VALUES[0], \
+        radioButtons = ui.radio(GC.RADIO_BUTTON_VALUES, value=GC.RADIO_BUTTON_VALUES[0],
                                 on_change=lambda e: get_radio_button_state(e.value)).props('inline')
         with radioButtons:
             radioButtons.visible = False
@@ -233,7 +230,6 @@ if __name__ in {"__main__", "__mp_main__"}:
             closeGraphButton.visible = False
             ui.label('CLOSE ㅤ').style('font-size: 100%; font-weight: 300')
             ui.icon('close')
-
 
     totalCostLabel = ui.label(f"The total cost for this {selectedView} is {GC.FACTORY_ENERGY_COST * totalEnergy * GC.WORKING_LED_LIGHTS} USD").style("color: #001b36; font-size: 300%; font-weight: 300").classes("self-center")
     totalCostLabel.visible = False

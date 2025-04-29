@@ -46,6 +46,9 @@ import GlobalConstants as GC
 
 
 class Database:
+    """
+    Manages secure database connections and queries for StrongBox, with robust error handling and input validation.
+    """
 
     # The Moons synodic orbital period is exactly equal to lunar day (Sidereal orbital period is 27 days, 7 hours, 43 mins, and 11.5 seconds)
     ONE_MOON_DAY = 708.7                        # Units are hours (29.53 Earth days = 708.7 Earth hours)
@@ -84,8 +87,13 @@ class Database:
                 self.cursor.execute('''CREATE TABLE IF NOT EXISTS MonthGraphTable   (id INTEGER PRIMARY KEY, o2_level INTEGER, co2_level INTEGER, watt_hours INTEGER, month_number TEXT)''')
 
                 # Create debuging log
-                self.cursor.execute('''CREATE TABLE IF NOT EXISTS DebugLoggingTable (id INTEGER PRIMARY KEY, logMessage TEXT)''')
-
+                self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS DebugLoggingTable (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                log_message TEXT NOT NULL,
+                log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
 
                 if Database.check_table_exists(filename, "DayGraphTable"):
                     pass # Do nothing since tables were create at with Database.py object
@@ -216,7 +224,7 @@ class Database:
         Returns:
             int: Database index id of last row inserted (1-based indicies) OR -1 if insert failed
         """
-        timeStamp = str(datetime.strptime(date, '%Y-%m-%d').isoformat(timespec="minutes")[0:10])
+        timeStamp = str(datetime.strptime(date, '%Y-%m-%d').isoformat(timespec="minutes"))[0:10]
         results, isEmpty, isValid = self.get_daily_sensor_data(timeStamp)
         if GC.DEBUG_STATEMENTS_ON: print(f"Tuple returned was: {(results, isEmpty, isValid)}")
 
@@ -252,7 +260,7 @@ class Database:
         Returns:
             int: Database index id of last row inserted
         """
-        timeStamp = str(datetime.strptime(date, '%Y-%m-%d').isoformat(timespec="minutes")[0:10]
+        timeStamp = str(datetime.strptime(date, '%Y-%m-%d').isoformat(timespec="minutes"))[0:10]
         current_week_number = datetime.strptime(date, '%Y-%m-%d').isocalendar()[1]
 
         results, isEmpty, isValid = self.get_daily_sensor_data(timeStamp)
@@ -470,7 +478,6 @@ if __name__ == "__main__":
     insertErrors = db.insert_check_in_table(1001)
     print(insertErrors)
     checkOutErrors = db.insert_check_out_table(1001)
-    print(insertErrors)
+    print(checkOutErrors)
     """
-
-    db1.close_database()
+    # db1.close_database()

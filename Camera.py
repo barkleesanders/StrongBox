@@ -17,6 +17,11 @@ import cv2
 import time
 import os
 
+import GlobalConstants as GC
+import cv2
+import time
+import os
+
 class Camera:
     def __init__(self, camera_index=0):
         self.numOfPhotos = 0
