@@ -1,0 +1,6 @@
+{
+  "format": "salt + Fernet, generated using cryptography 44.0.2",
+  "plaintext_base64": "bGVnYWN5IGZvcm1hdCBmaXh0dXJlAP8=",
+  "fixture_password": "public compatibility fixture",
+  "ciphertext_base64": "Um7ENQdrvsdrYP4cGR4OXWdBQUFBQUJxMlJ6dmk4dnc3Uld0cjZKWEcxb1llVTdwbWVKcXAtM3dTRFU4R3JOR1VrNmF4TTRRY0ZVdjl1ZTlhaTFsb3Rmc1FKM3Z1c09abjhWYTIwVm1uQmhZSG9Dcl9sQUN3OGp2UHhrV1NfYlprYmhTd3FZPQ=="
+}

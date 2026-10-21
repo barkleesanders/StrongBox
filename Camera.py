@@ -32,24 +32,25 @@ class Camera:
         # SBX-004: Added error handling for missing camera device
         print(f"Trying to open USB camera at index {self.camera_index} (V4L2 backend)...")
         camera = cv2.VideoCapture(self.camera_index, cv2.CAP_V4L2)
-        if not camera.isOpened():
-            print(f"Error: Failed to open camera at index {self.camera_index} using V4L2 backend. No camera device detected.")
-            return None
-        # Capture a single frame
-        ret, frame = camera.read()
-        if not ret:
-            print("Error: Failed to capture image from camera.")
+        try:
+            if not camera.isOpened():
+                print(f"Error: Failed to open camera at index {self.camera_index} using V4L2 backend. No camera device detected.")
+                return None
+            ret, frame = camera.read()
+            if not ret:
+                print("Error: Failed to capture image from camera.")
+                return None
+            images_dir = os.path.join(os.path.dirname(__file__), 'static', 'images')
+            os.makedirs(images_dir, exist_ok=True)
+            imageFileName = os.path.join(images_dir, f"USBImage{self.numOfPhotos}_{int(time.time())}.jpg")
+            if not cv2.imwrite(imageFileName, frame):
+                print("Error: Failed to save captured image.")
+                return None
+            self.numOfPhotos += 1
+            print(f"{imageFileName} captured and saved successfully from camera index {self.camera_index}")
+            return imageFileName
+        finally:
             camera.release()
-            return None
-        # Save the captured frame as an image in a cross-platform way
-        images_dir = os.path.join(os.path.dirname(__file__), 'static', 'images')
-        os.makedirs(images_dir, exist_ok=True)
-        imageFileName = os.path.join(images_dir, f"USBImage{self.numOfPhotos}_{int(time.time())}.jpg")
-        cv2.imwrite(imageFileName, frame)
-        print(f"{imageFileName} captured and saved successfully from camera index {self.camera_index}")
-        self.numOfPhotos += 1
-        camera.release()
-        return imageFileName
 
 if __name__ == "__main__":
     # Only test the first camera (index 0) for USB camera verification
