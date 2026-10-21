@@ -41,4 +41,13 @@ jobs:
       - name: Record update type
         env:
           UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
-        run: test -n "$UPDATE_TYPE"
+          DEPENDENCIES: ${{ steps.metadata.outputs.dependency-names }}
+          PATCH_ELIGIBLE: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
+        run: |
+          test -n "$DEPENDENCIES"
+          if [ -z "$UPDATE_TYPE" ]; then
+            test "$PATCH_ELIGIBLE" = false
+            echo "Metadata parsed; update type is unknown. Manual review required; auto-merge is ineligible."
+          else
+            printf 'Classified update: %s\n' "$UPDATE_TYPE"
+          fi
