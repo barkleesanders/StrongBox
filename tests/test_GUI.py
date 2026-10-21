@@ -7,11 +7,30 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Sample test skeleton for GUI.py
+@pytest.mark.asyncio
+async def test_dashboard_http_and_refresh_callback(user, monkeypatch):
+    from unittest.mock import Mock
+    import Camera
+    import GUI
+    from nicegui import ui
 
-def test_gui_launch():
-    # TODO: Replace with actual test
-    assert True
+    capture = Mock(return_value="/fixture-frame.jpg")
+    monkeypatch.setattr(Camera.Camera, "take_picture", capture)
+    launcher = Mock()
+    monkeypatch.setattr(ui, "run", launcher)
+    monkeypatch.setenv("DISPLAY", "fixture-only")
+    monkeypatch.delenv("FORCE_HEADLESS", raising=False)
+    GUI.main()
+    root = launcher.call_args.kwargs["root"]
+
+    @ui.page("/dashboard")
+    def dashboard():
+        root()
+
+    await user.open("/dashboard")
+    await user.should_see("Strong Box: Air Plant One Mission")
+    user.find("PAGE REFRESH").click()
+    assert capture.call_count == 4
 
 import subprocess
 import sys

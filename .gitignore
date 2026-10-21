@@ -7,6 +7,8 @@ strongbox-gui-db.db-wal
 # Python Virtual Enviroment file created using 'python3 -m venv ?' command
 .venv
 .venvStrongBox
+venv_test/
+.pytest_cache/
 
 # Hidden file for storing passwords and API tokens
 .env

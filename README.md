@@ -1,4 +1,22 @@
 # Strong Box
+## Software checks
+
+Create a fresh virtual environment with Python 3.10 or 3.12:
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install --only-binary=:all: -r requirements.txt -r requirements-test.txt
+.venv/bin/python -m pip check
+.venv/bin/python -m pytest -q
+.venv/bin/python -m pip_audit
+```
+
+The tests cover encryption and the CLI, legacy ciphertext compatibility, local
+SQLite queries, image encoding with a simulated camera driver, edge detection,
+and dashboard HTTP construction and callbacks. Browser readability and physical
+camera, power, and flight-hardware verification remain separate release checks.
+Virtual environments are local build artifacts and are excluded from Git.
+
 ## Greenhouse to the grey Moon!
 Only human life has ventured to explore the Moon. Let’s bring new beauty and life to the moon in a 2.00 x 2.00 x 2.00 ft (60.9 x 60.9 x 60.9 cm) Strong Box™ by Out of the Box Astronautics LLC. Constructed from 6.00 x 6.00 x 0.250 inch (15.24 x 15.24 x 0.640 cm ) [304L](https://www.reddit.com/r/SpaceXLounge/comments/15n1qk6/the_steel_used_for_starship) Hollow Structural (Stainless) Steel (HSsS) and filled with [Central American Air Plants](https://airplantshop.com/products/5-tillandsia-of-central-america/), [Antarctica McMurdo Dry Valley lichen](https://explorersweb.com/lichen-survives-space/#:~:text=Lichen%20from%20Antarctica%27s%20McMurdo%20Dry,conditions%2C”%20many%20still%20survived.), four [2.5 lbs carbon dioxide (CO2) bottles](https://www.thehomebrewstorefl.com/products/co2-gas-2-5lb), two [NVIDIA® Jetson AGX ORIN](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/), six [2 km LIDAR](https://www.iadiy.com/2km-laser-rangefinder-module), and twelve [5 MP (2560 x 1920) Sony IMX568 cameras](https://www.e-consystems.com/nvidia-cameras/jetson-agx-orin-cameras/5mp-imx568-global-shutter-mipi-camera.asp) inside [Ultem 1010](https://www.3dxtech.com/product/thermax-pei-using-ultem-1010) 3D printed enclosures with [M12x0.5 Lens Holders](https://www.edmundoptics.com/p/M12-mu-Video-Lens-Holder-for-Camera-Boards/20897?gad_source=1&gclid=CjwKCAjwnv-vBhBdEiwABCYQA6OeLSs9n51DloSTny7YeWQfSaP5r_7EBKPH8qJWXD1H1KISg5-zVhoClVcQAvD_BwE), and a single [Class O or Class S](https://en.wikipedia.org/wiki/Model_rocket_motor_classification) solid rocket engine. <br> <br>
 

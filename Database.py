@@ -187,6 +187,7 @@ class Database:
             pass #self.cursor.close()
         else:
             self.cursor.close()
+            self.conn.close()
 
 
     def get_date_time(self) -> datetime:
@@ -322,47 +323,35 @@ class Database:
             isValid: Returns True if table name exists in EnergyReport.db, and False otherwise
         """
 
-        if searchTerm is None:
-            sqlStatement = f"SELECT * FROM {tableName}"
-        else:
-            sqlStatement = f"SELECT * FROM {tableName} WHERE timestamp = ?"  #f"SELECT * FROM {tableName} WHERE content LIKE ?, ('%' + {str(searchTerm)} + '%',)" #self.cursor.execute("SELECT * FROM DatasetTable WHERE content LIKE ?", ('%' + str(searchTerm) + '%',))
-
-        isEmpty = False
-        isValid = True
-        localCursor = self.conn.execute(sqlStatement, (searchTerm, ))
-        #self.conn.fetchall()[0]
-        # TODO https://stackoverflow.com/questions/29935993/selecting-an-entire-table-in-sql
-        result = localCursor.fetchall()
-
-        if len(result) == 0:
-            isEmpty = True
-
-        if GC.DEBUG_STATEMENTS_ON: print(f"INSIDE QUERY TRY: {result}")
-
         try:
-            if row == None and column == None:
-                return result, isEmpty, isValid
-            elif column == None:
-                if row is not None:
-                    return result[row-1], isEmpty, isValid
-            else:
-                if column == GC.TODO:
-                     if row is not None:
-                         return json.loads(result[row-1][column]), isEmpty, isValid
-                else:
-                     if row is not None:
-                         return result[row-1][column], isEmpty, isValid
-
-        except IndexError:
-            if GC.DEBUG_STATEMENTS_ON: self.insert_debug_logging_table("INSIDE INDEX ERROR")
+            # Identifiers cannot use SQL parameters; validate against the actual schema
+            # before quoting the identifier. Values always remain bound parameters.
+            exists = self.conn.execute(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (tableName,)
+            ).fetchone()
+            if not exists:
+                return None, None, False
+            quoted = '"' + tableName.replace('"', '""') + '"'
+            sql = f"SELECT * FROM {quoted}"
+            parameters = ()
+            if searchTerm is not None:
+                sql += " WHERE timestamp = ?"
+                parameters = (searchTerm,)
+            result = self.conn.execute(sql, parameters).fetchall()
+            if row is None:
+                if column is not None:
+                    return None, None, False
+                return result, len(result) == 0, True
+            if row < 1:
+                return None, None, False
+            selected = result[row - 1]
+            if column is None:
+                return selected, False, True
+            if column == GC.TODO:
+                return json.loads(selected[column]), False, True
+            return selected[column], False, True
+        except (IndexError, TypeError, ValueError, sqlite3.Error):
             return None, None, False
-
-        except sqlite3.OperationalError:
-            if GC.DEBUG_STATEMENTS_ON: self.insert_debug_logging_table(f"INSIDE OPERATIONAL ERROR")
-            return None, None, False
-
-        # Final code path
-        return None, None, False
 
 
     def export_table_to_csv(self, tableNames: list):

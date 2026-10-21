@@ -24,17 +24,8 @@ __version__    = "0.0.1"
 
 import os
 import sys
-# Headless environment check must run before any side-effectful code
-if not os.environ.get("DISPLAY") or os.environ.get("FORCE_HEADLESS") == "1":
-    print(
-        "No display found. GUI cannot be launched in a headless environment."
-    )
-    sys.stdout.flush()
-    sys.exit(1)
-
-
-def main():
-    """Main entry point for the StrongBox GUI application."""
+def build_page():
+    """Build one dashboard within NiceGUI's page context."""
     # Standard Python libraries
     from time import sleep  # Used to program pause execution
 
@@ -188,7 +179,14 @@ def main():
         ui.image(GC.TEST_IMAGE_B)
         ui.image(GC.TEST_IMAGE_B)
 
-    ui.run()
+def main():
+    """Launch the dashboard after checking the desktop environment."""
+    if not os.environ.get("DISPLAY") or os.environ.get("FORCE_HEADLESS") == "1":
+        print("No display found. GUI cannot be launched in a headless environment.")
+        sys.stdout.flush()
+        sys.exit(1)
+    from nicegui import ui
+    ui.run(root=build_page)
 
 
 if __name__ == "__main__":
