@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: { interval: "daily" }
+    open-pull-requests-limit: 10
+    rebase-strategy: auto
+    labels: [dependencies, github-actions]
+
+  - package-ecosystem: "pip"
+    directory: "/requirements.txt"
+    schedule: { interval: "daily" }
+    open-pull-requests-limit: 10
+    rebase-strategy: auto
+    labels: [dependencies, python]
+    ignore: &ignore_major_minor_updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+  - package-ecosystem: "docker"
+    directory: "/Dockerfile"
+    schedule: { interval: "daily" }
+    open-pull-requests-limit: 10
+    rebase-strategy: auto
+    labels: [dependencies, docker]
+    ignore: *ignore_major_minor_updates
